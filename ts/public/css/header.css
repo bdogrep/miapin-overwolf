@@ -19,10 +19,17 @@
 }
 
 .app-header {
+  height: 40px;
   display: flex;
   align-items: center;
   z-index: 9999;
   background-color: #272727;
+}
+
+.app-header img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .app-header h1 {
@@ -30,6 +37,7 @@
   font-weight: normal;
   color: #8d8d8d;
   font-size: 14px;
+  font-weight: bold;
   padding-left: 8px;
   margin: 0;
   cursor: inherit;
