@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "WebFetch(domain:dev.overwolf.com)"
+      "WebFetch(domain:dev.overwolf.com)",
+      "WebFetch(domain:overwolf.github.io)",
+      "Bash(git add:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []
