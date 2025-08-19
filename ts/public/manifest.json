@@ -2,16 +2,16 @@
   "manifest_version": 1,
   "type": "WebApp",
   "meta": {
-    "name": "Sample App",
-    "author": "Overwolf",
-    "version": "3.0.3",
+    "name": "miapn",
+    "author": "bdogrep",
+    "version": "1.0.0",
     "minimum-overwolf-version": "0.160.0",
-    "description": "An example app for developers new to Overwolf",
-    "dock_button_title": "Sample - TS",
-    "icon": "icons/IconMouseOver.png",
-    "icon_gray": "icons/IconMouseNormal.png",
-    "launcher_icon": "icons/desktop-icon.ico",
-    "window_icon": "icons/IconMouseOver.png"
+    "description": "Powerup your game with miapn",
+    "dock_button_title": "miapn",
+    "icon": "icons/icon.png",
+    "icon_gray": "icons/icon.png",
+    "launcher_icon": "icons/icon.png",
+    "window_icon": "icons/icon.png"
   },
   "permissions": [
     "Hotkeys",
@@ -82,6 +82,7 @@
     "game_targeting": {
       "type": "dedicated",
       "game_ids": [
+        10902,
         21216,
         7764,
         5426,
@@ -99,6 +100,7 @@
       ]
     },
     "game_events": [
+      10902,
       21216,
       7764,
       5426,
@@ -119,6 +121,7 @@
         "event": "GameLaunch",
         "event_data": {
           "game_ids": [
+            10902,
             21216,
             7764,
             5426,

@@ -74,6 +74,20 @@ export const kGamesFeatures = new Map<number, string[]>([
       'heal'
     ]
   ],
+  // League of Legends Launcher
+  [
+    10902,
+    [
+      'game_flow',
+      'summoner_info',
+      'champ_select',
+      'lobby_info',
+      'end_game',
+      'lcu_info',
+      'game_info',
+      'clash'
+    ]
+  ],
   // Escape From Tarkov
   [
     21634,
