@@ -65,11 +65,11 @@ class BackgroundController {
     }
 
     if (await this.isSupportedGameRunning()) {
-      this._windows[kWindowNames.desktop].close();
+      this._windows[kWindowNames.desktop].restore();
       this._windows[kWindowNames.inGame].restore();
     } else {
       this._windows[kWindowNames.desktop].restore();
-      this._windows[kWindowNames.inGame].close();
+      this._windows[kWindowNames.inGame].restore();
     }
   }
 
@@ -79,11 +79,11 @@ class BackgroundController {
     }
 
     if (info.isRunning) {
-      this._windows[kWindowNames.desktop].close();
+      this._windows[kWindowNames.desktop].restore();
       this._windows[kWindowNames.inGame].restore();
     } else {
       this._windows[kWindowNames.desktop].restore();
-      this._windows[kWindowNames.inGame].close();
+      this._windows[kWindowNames.inGame].restore();
     }
   }
 
