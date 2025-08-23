@@ -7,7 +7,7 @@ import { kWindowNames } from "../consts";
 
 class Desktop extends AppWindow {
   private static _instance: Desktop;
-  private lolCheckTimer: NodeJS.Timeout | null = null;
+  private lolCheckTimer: number | null = null;
   private lolDetected: boolean = false;
 
   private constructor() {
@@ -23,13 +23,6 @@ class Desktop extends AppWindow {
   }
 
   public async run() {
-    const gameClassId = await this.getCurrentGameClassId();
-    console.log(gameClassId);
-
-    overwolf.games.events.getInfo(function(info) {
-      console.log(info);
-    });
-
     // League of Legends ランチャーイベントの設定
     this.setupLoLLauncherEvents();
 
@@ -88,7 +81,7 @@ class Desktop extends AppWindow {
         // サモナー情報を取得して表示
         overwolf.games.launchers.events.getInfo(10902, (result) => {
           if (result.success && result.res) {
-            console.log("=== League of Legends サモナー情報 ===");
+            console.log("success: overwolf.games.launchers.events.getInfo");
             
             if (result.res.summoner_info) {
               // 取得できる全データを確認
@@ -107,12 +100,6 @@ class Desktop extends AppWindow {
         console.error("LoLランチャー機能の設定に失敗:", info.error);
       }
     });
-  }
-
-  private async getCurrentGameClassId(): Promise<number | null> {
-    const info = await OWGames.getRunningGameInfo();
-
-    return (info && info.isRunning && info.classId) ? info.classId : null;
   }
 }
 
