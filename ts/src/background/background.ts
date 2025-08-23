@@ -58,16 +58,27 @@ class BackgroundController {
 
     // test
     overwolf.games.launchers.events.getInfo(10902, (result) => {
-      if (result.success && result.res) {
-        console.log("success: overwolf.games.launchers.events.getInfo");
-        
-        if (result.res.summoner_info) {
-          // 取得できる全データを確認
-          console.log("サモナー情報:", result.res.summoner_info);
-          console.log("プレイヤー情報:", result.res.summoner_info.player_info);
+      console.log("getInfo:", result.res.summoner_info);
+      console.log("getInfo: player_info:", result.res.summoner_info.player_info);
+    });
+
+    // Watch for GameStart
+    overwolf.games.launchers.events.setRequiredFeatures(
+      10902, // LoL launcher ID
+      ['summoner_info', 'game_flow'],
+      (result) => {
+        if (result.success) {
+          overwolf.games.launchers.events.onInfoUpdates.addListener(
+            (e) => {
+              console.log('onInfoUpdates:', e)
+              if (e.feature === 'game_flow' && e.info.game_flow === 'GameStart') {
+                console.log('GameStart')
+              }
+            }
+          );
         }
       }
-    });
+    );
   }
 
   private async onAppLaunchTriggered(e: AppLaunchTriggeredEvent) {
