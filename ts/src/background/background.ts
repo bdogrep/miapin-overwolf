@@ -55,6 +55,19 @@ class BackgroundController {
       : kWindowNames.desktop;
 
     this._windows[currWindowName].restore();
+
+    // test
+    overwolf.games.launchers.events.getInfo(10902, (result) => {
+      if (result.success && result.res) {
+        console.log("success: overwolf.games.launchers.events.getInfo");
+        
+        if (result.res.summoner_info) {
+          // 取得できる全データを確認
+          console.log("サモナー情報:", result.res.summoner_info);
+          console.log("プレイヤー情報:", result.res.summoner_info.player_info);
+        }
+      }
+    });
   }
 
   private async onAppLaunchTriggered(e: AppLaunchTriggeredEvent) {
@@ -65,10 +78,10 @@ class BackgroundController {
     }
 
     if (await this.isSupportedGameRunning()) {
-      this._windows[kWindowNames.desktop].close();
+      // this._windows[kWindowNames.desktop].close();
       this._windows[kWindowNames.inGame].restore();
     } else {
-      this._windows[kWindowNames.desktop].restore();
+      // this._windows[kWindowNames.desktop].restore();
       this._windows[kWindowNames.inGame].close();
     }
   }
@@ -79,10 +92,10 @@ class BackgroundController {
     }
 
     if (info.isRunning) {
-      this._windows[kWindowNames.desktop].close();
+      // this._windows[kWindowNames.desktop].close();
       this._windows[kWindowNames.inGame].restore();
     } else {
-      this._windows[kWindowNames.desktop].restore();
+      // this._windows[kWindowNames.desktop].restore();
       this._windows[kWindowNames.inGame].close();
     }
   }
