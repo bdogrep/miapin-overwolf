@@ -19,8 +19,6 @@ class BackgroundController {
   private static _instance: BackgroundController;
   private _windows: Record<string, OWWindow> = {};
   private _gameListener: OWGameListener;
-  private lolCheckTimer: number | null = null;
-  private lolDetected: boolean = false;
 
   private constructor() {
     // Populating the background controller's window dictionary
@@ -57,13 +55,6 @@ class BackgroundController {
       : kWindowNames.desktop;
 
     this._windows[currWindowName].restore();
-
-    // League of Legends ランチャーイベントの設定
-    this.setupLoLLauncherEvents();
-
-    overwolf.games.launchers.events.onInfoUpdates.addListener(function(info) {
-      console.log("Launcher Info UPDATE: " + JSON.stringify(info));
-    });
   }
 
   private async onAppLaunchTriggered(e: AppLaunchTriggeredEvent) {
@@ -74,11 +65,11 @@ class BackgroundController {
     }
 
     if (await this.isSupportedGameRunning()) {
-      this._windows[kWindowNames.desktop].restore();
+      this._windows[kWindowNames.desktop].close();
       this._windows[kWindowNames.inGame].restore();
     } else {
       this._windows[kWindowNames.desktop].restore();
-      this._windows[kWindowNames.inGame].restore();
+      this._windows[kWindowNames.inGame].close();
     }
   }
 
@@ -88,11 +79,11 @@ class BackgroundController {
     }
 
     if (info.isRunning) {
-      this._windows[kWindowNames.desktop].restore();
+      this._windows[kWindowNames.desktop].close();
       this._windows[kWindowNames.inGame].restore();
     } else {
       this._windows[kWindowNames.desktop].restore();
-      this._windows[kWindowNames.inGame].restore();
+      this._windows[kWindowNames.inGame].close();
     }
   }
 
@@ -105,77 +96,6 @@ class BackgroundController {
   // Identify whether the RunningGameInfo object we have references a supported game
   private isSupportedGame(info: RunningGameInfo) {
     return kGameClassIds.includes(info.classId);
-  }
-
-  private setupLoLLauncherEvents() {
-    // LoLランチャーの起動をチェック
-    this.checkLoLLauncher();
-  }
-
-  private checkLoLLauncher() {
-    // すでに検知済みなら何もしない
-    if (this.lolDetected) {
-      return;
-    }
-
-    // LoLランチャー（ID: 10902）が起動しているかチェック
-    overwolf.games.launchers.getRunningLaunchersInfo((result) => {
-      const isLoLRunning = result?.launchers?.some(launcher => launcher.classId === 10902);
-      
-      if (isLoLRunning) {
-        console.log("League of Legendsランチャーを検知しました！");
-        this.lolDetected = true;
-        
-        // タイマーをクリア
-        if (this.lolCheckTimer) {
-          clearInterval(this.lolCheckTimer);
-          this.lolCheckTimer = null;
-        }
-        
-        // サモナー情報を取得
-        this.getLoLSummonerInfo();
-      } else {
-        // 起動していない場合、まだタイマーが設定されていなければ設定
-        if (!this.lolCheckTimer) {
-          console.log("LoLランチャーの起動を待機中...");
-          this.lolCheckTimer = setInterval(() => {
-            this.checkLoLLauncher();
-          }, 1000);
-        }
-      }
-    });
-  }
-
-  private getLoLSummonerInfo() {
-    const features = ["summoner_info", "game_flow"];
-    
-    // 必要な機能を設定
-    overwolf.games.launchers.events.setRequiredFeatures(10902, features, (info) => {
-      if (info.success) {
-        console.log("LoLランチャー機能を設定しました");
-        
-        // サモナー情報を取得して表示
-        overwolf.games.launchers.events.getInfo(10902, (result) => {
-          if (result.success && result.res) {
-            console.log("success: overwolf.games.launchers.events.getInfo");
-            
-            if (result.res.summoner_info) {
-              // 取得できる全データを確認
-              console.log("サモナー情報:", result.res.summoner_info);
-              console.log("プレイヤー情報:", result.res.summoner_info.player_info);
-            } else {
-              console.log("サモナー情報はまだ利用できません（ログイン前の可能性）");
-            }
-            
-            if (result.res.game_flow) {
-              console.log("ゲームフローフェーズ:", result.res.game_flow.phase);
-            }
-          }
-        });
-      } else {
-        console.error("LoLランチャー機能の設定に失敗:", info.error);
-      }
-    });
   }
 }
 

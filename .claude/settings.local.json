@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh auth:*)"
     ],
     "deny": [],
     "ask": []
